@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Simple Python Web App</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Hello AMAL MADHAVAN (C0880051)</h1>
+    <p>This is a web application showing image of Toronto City</p>
+    <img src="/static/Canada.jpg" alt="Amal's Image">
+    
+    <div>
+        <label for="dataInput">Enter Data:</label>
+        <input type="text" id="dataInput">
+        <button onclick="setData()">Set Data</button>
+    </div>
+    <div>
+        <button onclick="getData()">Get Data</button>
+        <p id="result"></p>
+    </div>
+
+    <script>
+        function setData() {
+            var data = document.getElementById('dataInput').value;
+            $.ajax({
+                type: 'POST',
+                url: '/set_data',
+                data: {data: data},
+                success: function(response) {
+                    alert(response.message);
+                }
+            });
+        }
+
+        function getData() {
+            $.ajax({
+                type: 'GET',
+                url: '/get_data',
+                success: function(response) {
+                    var data = response.data;
+                    if (data !== null) {
+                        document.getElementById('result').innerText = 'Retrieved Data: ' + data;
+                    } else {
+                        document.getElementById('result').innerText = 'No data stored.';
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>
+
